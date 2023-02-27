@@ -32,6 +32,7 @@ class Manager extends Controller
 
             $per_page = $request->per_page ? $request->per_page : 15;
             $page = $request->page ? $request->page : 1;
+            $order = $request->order ? $request->order : "desc";
 
             config([
                 'woocommerce.store_url' => $this->shops[((int) $request->shop) - 1]['url'],
@@ -39,7 +40,7 @@ class Manager extends Controller
                 'woocommerce.consumer_secret' => $this->shops[((int) $request->shop) - 1]['secret'],
             ]);
 
-            $orders = Order::paginate($per_page, $page);
+            $orders = Order::orderBy('id', $order)->paginate($per_page, $page);
 
             return response()->json([
                 'status'    => true,
@@ -161,7 +162,7 @@ class Manager extends Controller
                 'woocommerce.consumer_secret' => $this->shops[0]['secret'],
             ]);
 
-            $orders = Order::orderBy("id", "asc")->paginate(1, 10);
+            $orders = Order::paginate(1, 1);
 
             return response()->json($orders);
         } catch (\Throwable $th) {
