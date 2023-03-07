@@ -28,5 +28,5 @@ Route::prefix('/')->group(function () {
 
     Route::post('/login', [Auth::class, 'login'])->middleware('guest');
     Route::post('/register', [Auth::class, 'register'])->middleware('guest');
-    Route::post('/logout', [Auth::class, 'logout'])->middleware('auth:sanctum');
+    Route::get('/logout', [Auth::class, 'logout'])->middleware('auth:sanctum');
 });
